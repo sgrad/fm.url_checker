@@ -1,16 +1,16 @@
 # fm.url_checker
 Sample producer consumer application
 
-#Technology choices
+# Technology choices
 Flask producer -> rabbitmq queue -> asyncio consumer 
-##Producer
+## Producer
 Went with a Flask API, it's mature, stable and has a lot of extensibility. Another Option would be to use something
 like FastAPI (ASGI on top of uvicorn) it is a lot faster than Flask, but it's a bit young and doesn't have as many
 features and libs available as Flask.
 
 The other choice here was to use connexion, which handles the documentation, mapping and data validation for the API.
 
-##Consumer
+## Consumer
 Celery is the defacto standard when it comes to RabbitMQ in python, but I'd try to avoid it as much as possible because:
  - it isn't Python3.7 compatible (https://github.com/celery/celery/issues/4500)
  - it has a lot of nice features which end up creating a very complex framework, with a lot of "magic" that is prone to 
@@ -21,7 +21,7 @@ Celery is the defacto standard when it comes to RabbitMQ in python, but I'd try 
  So I chose a simple implementation based on asyncio and aio-pika. Pika is the official supported library by RabbitMQ 
  and aio-pika only provides non-blocking io, leaving all the logic in the base library.
  
-##Deployment
+## Deployment
 Docker containers offer a lot of advantages like:
  - easy portability
  - easy to create multiple environments (dev, test, prod, etc.)
@@ -31,7 +31,7 @@ For the sake of this example the rabbitmq server is also running in docker, in a
 running directly on AWS instances or bare metal
 
 
-#Issues
+# Issues
 This is a proof of concept and nowhere near a proper production ready setup, hence there are some issues:
 
 The app is configured with a single producer and a single consumer, normally there would be at least two of each and in 
@@ -54,7 +54,7 @@ There are a couple of ways to avoid this:
  basic settings) can achieve a reliable exponential back-off retry system. Jobs that still fail after this can be put in
  a separate dead-letter queue for human intervention or different automatic processing.
  
- ##Running
+ ## Running
  To run the project all you need to do is have docker with docker-compose set up and run:
  `docker-compose up`. This will build and start the required containers and print to stdout all the logging output from 
  the containers.
@@ -64,7 +64,7 @@ There are a couple of ways to avoid this:
  For the API documentation, once the producer is started, go to http://localhost:8080/ui/
  
  
- ##Notes
+ ## Notes
  Normally the producer and consumer would be in separate repos, and any shared code in separate libraries. For the sake 
  of brevity I've included both in this repo but still kept them separate.
  
