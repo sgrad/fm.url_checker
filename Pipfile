@@ -1,0 +1,26 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+aio-pika = "*"
+connexion = {version = "*", extras = ["swagger-ui"]}
+python-json-logger = "*"
+uwsgi = "*"
+flask = "*"
+swagger-ui-bundle = "*"
+pika = "*"
+rfc3987 = "*"
+uvloop = "*"
+aiohttp = "*"
+
+[dev-packages]
+pytest = "*"
+pytest-flask = "*"
+coverage = "*"
+flexmock = "*"
+pytest-asyncio = "*"
+
+[requires]
+python_version = "3.7"

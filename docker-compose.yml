@@ -1,0 +1,55 @@
+version: "3.3"
+
+services:
+
+  producer:
+    build: ./
+    hostname: "producer"
+    environment:
+      RABBITMQ_HOST: "rabbitmq"
+      RABBITMQ_PORT: "5672"
+      RABBITMQ_USER: "rabbitmq"
+      RABBITMQ_PASS: "rabbitmq"
+      RABBITMQ_VHOST: "/"
+      RABBITMQ_JOB_EXCHANGE: ""
+      RABBITMQ_JOB_ROUTING_KEY: "jobs"
+
+    ports:
+      - "8080:8080"
+
+    depends_on:
+      - rabbitmq
+
+    command: ["./fm_url_checker/producer/entrypoint.sh"]
+
+
+  consumer:
+    build: ./
+    hostname: "producer"
+    environment:
+      RABBITMQ_HOST: "rabbitmq"
+      RABBITMQ_PORT: "5672"
+      RABBITMQ_USER: "rabbitmq"
+      RABBITMQ_PASS: "rabbitmq"
+      RABBITMQ_VHOST: "/"
+      RABBITMQ_JOB_EXCHANGE: ""
+      RABBITMQ_JOB_ROUTING_KEY: "jobs"
+
+    depends_on:
+      - rabbitmq
+
+    command: ["./fm_url_checker/consumer/entrypoint.sh"]
+
+
+  rabbitmq:
+    image: "rabbitmq:3.7.8-management"
+    hostname: "rabbitmq"
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+      RABBITMQ_DEFAULT_USER: "rabbitmq"
+      RABBITMQ_DEFAULT_PASS: "rabbitmq"
+      RABBITMQ_DEFAULT_VHOST: "/"
+
+    ports:
+      - "15672:15672"
+      - "5672:5672"
