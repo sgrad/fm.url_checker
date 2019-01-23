@@ -40,7 +40,7 @@ the case of the producer there would be a load balancer in front (Kubnernetes, A
 Besides redundancy (consumer dies, producer fills up the queue) there's another issue with running a single consumer, 
 with the current configuration, if a task takes a long time all other jobs will end up loading the rabbitmq queue. 
 There are a couple of ways to avoid this:
- - change the prefetch count in the worker to pull more messages, which will work ok until the worker get's saturated 
+ - change the prefetch count in the worker to pull more messages, which will work ok until the worker gets saturated 
  with multiple long running tasks (plus memory concerns, etc)
  - add a timeout to the tasks
  - use multiple workers
@@ -50,7 +50,7 @@ There are a couple of ways to avoid this:
  back in the queue and processed by another worker. But, currently, if a task fails for any reason it's discarded which
  is not entirely desirable. If the website it's trying to read is down, there can be a retry mechanism. The easiest way 
  to do this is by requeuing the message in a special delay queue that has a ttl (either per queue or per message) and a 
- dead-letter back to the original queue. This in combination with a requeue counter (message headers and/or amqp 
+ dead-letter back to the original queue. This, in combination with a requeue counter (message headers and/or amqp 
  basic settings) can achieve a reliable exponential back-off retry system. Jobs that still fail after this can be put in
  a separate dead-letter queue for human intervention or different automatic processing.
  
