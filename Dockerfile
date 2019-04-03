@@ -8,7 +8,6 @@ RUN set -ex && pip install pipenv --upgrade
 # -- Adding Pipfiles
 COPY Pipfile Pipfile
 COPY Pipfile.lock Pipfile.lock
-COPY stack-fix.c stack-fix.c
 
 RUN set -ex \
 	&& apk add --update --no-cache --virtual .buildDeps \
@@ -20,10 +19,8 @@ RUN set -ex \
         libffi-dev \
 	&& apk add --update --no-cache postgresql-dev libxml2 libxml2-dev libxslt-dev \
     # Check stack-fix.c for details
-    && gcc -shared -fPIC stack-fix.c -o stack-fix.so \
     && pipenv install --deploy --system \
     && apk del --purge .buildDeps \
     && rm -rf /root/.cache/* \
-    && rm -rf /var/cache/apk/* \
-    && rm -rf stack-fix.c
+    && rm -rf /var/cache/apk/*
 COPY . /server/apps/fm.url_checker
