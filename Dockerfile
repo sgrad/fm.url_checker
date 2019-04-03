@@ -1,6 +1,6 @@
 FROM python:3-alpine3.7
 LABEL maintainer="Stefan Gradinar <email@nospam.com>"
-ENV PYTHONPATH=/server/apps/fm.url_checker LD_PRELOAD=/server/apps/ometria.api.campaigns/stack-fix.so
+ENV PYTHONPATH=/server/apps/fm.url_checker
 RUN mkdir -p /server/apps/ometria.fm.url_checker /server/env
 WORKDIR /server/apps/fm.url_checker
 # -- Install pipenv
